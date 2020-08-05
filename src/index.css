@@ -12,6 +12,72 @@ code {
     monospace;
 }
 
+.App {
+  width: 100vw;
+  height: 100vh;
+  
+}
+
+#wholewrap
+{
+  display: flex;
+  flex-direction: row;
+}
+#topbar
+{
+  height: 50px;
+  width: 100vw;
+  background-color: #fbfbfb;
+}
+
+#mainsec
+{
+  width: calc(100vw - 80px);
+  height: 100vh;
+}
+
+#sidebar
+{
+  position: fixed;
+  right: 0px;
+  width: 50px;
+  height: 100vh;
+ 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+}
+
+#colorbar
+{
+  
+  /*background-color: #c5c5c5;*/
+  height: 35vh;
+  width: 50px;
+  
+  display: flex;
+  flex-direction: column;
+}
+
+.colorSel
+{
+  transition-duration: 100ms;
+  border-radius: 5px;
+  flex: 20;
+  
+  margin: 5px;
+}
+
+.colorSel:hover
+{
+  
+  
+  filter: brightness(0.7);
+  margin: 8px;
+}
+
+
 .hoverElement
 {
   -moz-user-select: none;
@@ -27,7 +93,7 @@ code {
 .hoverElement:hover
 {
   background-color: #c5c5c5;
-  padding: 3px;
+  padding: 2px;
   cursor: pointer;
 }
 
@@ -41,7 +107,6 @@ code {
 
 .para:hover
 {
-  font-size: 12.2pt;
 
 }
 

@@ -7,9 +7,18 @@ import React, { useState } from 'react'
 function Sentence(props) {
 
     const [active, setActive] = useState(false);
+    const [myColor, setMyColor] = useState(props.color);
+
+
 
     function checkClick(e) {
+
+
+
         if (e.buttons == 1 && !e.shiftKey) {
+            if (myColor !== props.color) {
+                setMyColor(props.color);
+            }
             setActive(true);
         }
         if (e.buttons == 1 && e.shiftKey) {
@@ -20,7 +29,11 @@ function Sentence(props) {
     if (active) {
         return (
 
-            <span onClick={() => setActive(!active)} onMouseEnter={checkClick} onMouseMove={checkClick} className="hoverElement" style={{ 'background': props.color }}>
+            <span onClick={() => {
+                if (myColor !== props.color) {
+                    setMyColor(props.color);
+                } setActive(!active);
+            }} onMouseEnter={checkClick} onMouseMove={checkClick} className="hoverElement" style={{ 'background': myColor }}>
                 {props.children}
             </span>
 
@@ -28,7 +41,11 @@ function Sentence(props) {
     }
     else {
         return (
-            <span onClick={() => setActive(!active)} onMouseEnter={checkClick} onMouseMove={checkClick} className="hoverElement">
+            <span onClick={() => {
+                if (myColor !== props.color) {
+                    setMyColor(props.color);
+                } setActive(!active);
+            }} onMouseEnter={checkClick} onMouseMove={checkClick} className="hoverElement">
                 {props.children}
             </span>
         );
