@@ -27,7 +27,10 @@ code {
 {
   height: 50px;
   width: 100vw;
-  background-color: #fbfbfb;
+  /*background-color: #fbfbfb;*/
+  display: flex;
+
+  align-items: center;
 }
 
 #mainsec
@@ -97,6 +100,20 @@ code {
   cursor: pointer;
 }
 
+.breakElement
+{
+  
+  -moz-user-select: none;
+  user-select: none;
+  
+  margin: 4px;
+  
+  border-radius: 5px;
+  padding: 1px;
+  text-align: center;
+  text-justify: distribute;
+}
+
 .para
 {
   transition-duration: 100ms;
@@ -110,3 +127,17 @@ code {
 
 }
 
+
+.saveButton
+{
+  width: 100px;
+  height: 30px;
+  
+
+}
+
+.textField
+{
+  height: 23px;
+  margin-left: 20px;
+}

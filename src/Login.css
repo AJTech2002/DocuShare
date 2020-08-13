@@ -1,0 +1,11 @@
+.centerParent
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loginScreen
+{
+    border-radius: 5px;
+}

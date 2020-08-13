@@ -5,13 +5,22 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import Sentence from './Sentence';
 import Paragraph from './Paragraph';
+import LoginScreen from './Login';
 
+import Database from './DatabaseManager';
 
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 
 ReactDOM.render(
   <React.StrictMode>
     {/*<p><span>This is a section of the same</span><span onClick={selectSection2} className="hoverElement"> paragraph that can be with multiple selection.</span></p>*/}
-    <App></App>
+
+    {<Main />}
   </React.StrictMode>,
   document.getElementById('root')
 );
@@ -20,3 +29,20 @@ ReactDOM.render(
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
 serviceWorker.unregister();
+
+function Main() {
+
+  var db = new Database();
+
+  //
+  return (
+    <Router>
+      <Switch>
+        <Route path="/">
+          <App />
+        </Route>
+      </Switch>
+    </Router>
+  );
+  //
+}

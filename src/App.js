@@ -3,13 +3,20 @@ import logo from './logo.svg';
 import './App.css';
 import Sentence from './Sentence';
 import Paragraph from './Paragraph';
+import HTMLParser from './HtmlParse';
+import WordElement from './WordElement';
 
 
 
 function App() {
 
-  const [clipboardText, setClipboardText] = useState("");
   const [selectedColor, setSelectedColor] = useState("#e8e85a");
+
+  const [mapping, setMapping] = useState({});
+
+  const [clipboardText, setClipboardText] = useState(['']);
+
+
 
   function Sentences(paragraph, g) {
     var sents = paragraph.split('.');
@@ -17,7 +24,8 @@ function App() {
   }
 
 
-  function getFromClipboard() {
+  function getFromClipboard(e) {
+
     navigator.clipboard.readText().then((text) => {
       if (text !== "") {
         setClipboardText(text.trim());
@@ -25,12 +33,56 @@ function App() {
     });
   }
 
+  function getClipboardData(e) {
+    var v = e.clipboardData.getData("text/html");
+
+    var start = v.indexOf("<!--StartFragment-->") + 20;
+    var end = v.indexOf("<!--EndFragment-->");
+
+    var substr = v.substring(start, end);
+
+
+    var parser = new DOMParser();
+    var htmlDoc = parser.parseFromString(substr, "text/html");
+
+
+
+    //console.log(htmlDoc.getElementsByTagName("body")[0].out);
+    let paras = htmlDoc.getElementsByTagName("body")[0].getElementsByTagName("p");
+    let extractedParagraphs = [];
+
+    for (let i = 0; i < paras.length; i++) {
+      extractedParagraphs.push(paras[i].outerHTML);
+    }
+    //var mapped = extractedParagraphs.map((element, i) => <Sentence key={i.toString() + "sentat"} color={selectedColor} inner={element}></Sentence>);
+
+    setClipboardText(extractedParagraphs);
+
+    console.log(substr);
+
+    console.log(mapped);
+
+
+    //setClipboardText({ __html: substr });
+    return substr;
+
+  }
+
+
+  console.log(selectedColor);
+
+  document.addEventListener("paste", getClipboardData);
+
+  var mapped = clipboardText.map((element, i) => <Sentence key={i.toString() + "sentat"} color={selectedColor} inner={element}></Sentence>);
+
+  /*
   var elements = [];
 
   var paragraphs = clipboardText.split('\n');
 
 
   elements = paragraphs.map((para, i) => <Paragraph key={i.toString() + "Para"}>{Sentences(para, i)}</Paragraph>);
+  */
 
   return (
     <div className="App">
@@ -39,12 +91,13 @@ function App() {
 
       <div id="wholewrap">
         <div id="mainsec">
-          <div id="topbar" onClick={getFromClipboard}>
-
+          <div id="topbar">
+            <input type="text" className="textField" placeholder="File Name"></input>
+            <button onClick={getFromClipboard} className="saveButton" style={{ margin: 20 }}>Save</button>
           </div>
-          <div id="textsec">
+          <div id="textsec" >
 
-            {elements}
+            {mapped}
 
           </div>
         </div>
@@ -64,4 +117,3 @@ function App() {
 }
 
 export default App;
-

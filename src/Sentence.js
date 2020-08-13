@@ -26,28 +26,34 @@ function Sentence(props) {
         }
     }
 
+    if (props.inner.includes("&nbsp;")) {
+        return (
+            <div className="breakElement"></div>
+        );
+    }
+
     if (active) {
         return (
 
-            <span onClick={() => {
+            <div onClick={() => {
                 if (myColor !== props.color) {
                     setMyColor(props.color);
                 } setActive(!active);
-            }} onMouseEnter={checkClick} onMouseMove={checkClick} className="hoverElement" style={{ 'background': myColor }}>
+            }} onMouseEnter={checkClick} onMouseMove={checkClick} className="hoverElement" style={{ 'background': myColor }} dangerouslySetInnerHTML={{ __html: props.inner }}>
                 {props.children}
-            </span>
+            </div>
 
         );
     }
     else {
         return (
-            <span onClick={() => {
+            <div onClick={() => {
                 if (myColor !== props.color) {
                     setMyColor(props.color);
                 } setActive(!active);
-            }} onMouseEnter={checkClick} onMouseMove={checkClick} className="hoverElement">
+            }} onMouseEnter={checkClick} onMouseMove={checkClick} className="hoverElement" dangerouslySetInnerHTML={{ __html: props.inner }}>
                 {props.children}
-            </span>
+            </div>
         );
     }
 
