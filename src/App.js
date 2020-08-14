@@ -5,17 +5,20 @@ import Sentence from './Sentence';
 import Paragraph from './Paragraph';
 import HTMLParser from './HtmlParse';
 import WordElement from './WordElement';
-
+import CompState from './ComponentState';
+import firebase from 'firebase';
 
 
 function App() {
 
+  let fileName = "";
+
   const [selectedColor, setSelectedColor] = useState("#e8e85a");
 
-  const [mapping, setMapping] = useState({});
+  var myRef = React.createRef();
+
 
   const [clipboardText, setClipboardText] = useState(['']);
-
 
 
   function Sentences(paragraph, g) {
@@ -53,8 +56,10 @@ function App() {
 
     for (let i = 0; i < paras.length; i++) {
       extractedParagraphs.push(paras[i].outerHTML);
+      //State Management
+      window.mapping[paras[i].outerHTML] = new CompState(false, "white");
     }
-    //var mapped = extractedParagraphs.map((element, i) => <Sentence key={i.toString() + "sentat"} color={selectedColor} inner={element}></Sentence>);
+
 
     setClipboardText(extractedParagraphs);
 
@@ -67,6 +72,54 @@ function App() {
     return substr;
 
   }
+
+  function stringToHash(string) {
+
+    var hash = 0;
+
+    if (string.length == 0) return hash;
+
+    for (let i = 0; i < string.length; i++) {
+      let char = string.charCodeAt(i);
+      hash = ((hash << 5) - hash) + char;
+      hash = hash & hash;
+    }
+
+    return hash;
+  }
+
+
+  async function deleteDoc(name) {
+    await firebase.firestore().collection("simple_text")
+      .doc(name).collection("sentences").get().then((snap2) => {
+
+        snap2.forEach(element => {
+
+          element.ref.delete();
+
+        });
+
+      });
+
+  }
+
+  function saveEverything() {
+
+    if (myRef.current.value.toString() !== "")
+      deleteDoc(myRef.current.value.toString()).then(() => {
+        //Hashing Paragraph element so that it can be easily stored in DB
+
+        for (var key in window.mapping) {
+          var doc = window.database.collection("simple_text").doc(myRef.current.value.toString()).collection("sentences").doc(stringToHash(key.toString()).toString())
+            .set({
+              html: key.toString(),
+              active: window.mapping[key].getActive(),
+              color: window.mapping[key].getCol(),
+            });
+        }
+      });
+  }
+
 
 
   console.log(selectedColor);
@@ -92,8 +145,8 @@ function App() {
       <div id="wholewrap">
         <div id="mainsec">
           <div id="topbar">
-            <input type="text" className="textField" placeholder="File Name"></input>
-            <button onClick={getFromClipboard} className="saveButton" style={{ margin: 20 }}>Save</button>
+            <input type="text" ref={myRef} className="textField" placeholder="File Name" ></input>
+            <button onClick={saveEverything} className="saveButton" style={{ margin: 20 }}>Save</button>
           </div>
           <div id="textsec" >
 

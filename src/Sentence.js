@@ -9,7 +9,12 @@ function Sentence(props) {
     const [active, setActive] = useState(false);
     const [myColor, setMyColor] = useState(props.color);
 
+    if (window.mapping[props.inner] !== undefined) {
+        window.mapping[props.inner].setActive(active);
+        window.mapping[props.inner].setCol(myColor);
 
+        console.log(window.mapping[props.inner]);
+    }
 
     function checkClick(e) {
 

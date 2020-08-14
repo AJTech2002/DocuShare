@@ -32,6 +32,7 @@ serviceWorker.unregister();
 
 function Main() {
 
+  window.mapping = {};
   var db = new Database();
 
   //

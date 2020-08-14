@@ -20,7 +20,7 @@ class Database {
             text: "thisText"
         });*/
 
-        window.$database = database;
+        window.database = database;
 
         /*Constructing this data:
         - Global Map of innerHTMLString to the State of it, State managed in a
