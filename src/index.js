@@ -15,12 +15,13 @@ import {
   Route,
   Link
 } from "react-router-dom";
+import SearchPage from './Search';
 
 ReactDOM.render(
   <React.StrictMode>
     {/*<p><span>This is a section of the same</span><span onClick={selectSection2} className="hoverElement"> paragraph that can be with multiple selection.</span></p>*/}
 
-    {<Main />}
+    <Main />
   </React.StrictMode>,
   document.getElementById('root')
 );
@@ -39,11 +40,25 @@ function Main() {
   return (
     <Router>
       <Switch>
-        <Route path="/">
-          <App />
-        </Route>
+
+        <Route path="/search" component={SearchPage}></Route>
+        <Route path="/" component={App}></Route>
       </Switch>
     </Router>
+
   );
   //
 }
+
+/*
+<Router>
+      <Switch>
+        <Route path="/">
+          <App />
+        </Route>
+        <Route path="/search">
+          <SearchPage />
+        </Route>
+      </Switch>
+    </Router>
+  */

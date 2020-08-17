@@ -7,15 +7,24 @@ import HTMLParser from './HtmlParse';
 import WordElement from './WordElement';
 import CompState from './ComponentState';
 import firebase from 'firebase';
-
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  useRouteMatch
+} from "react-router-dom";
+import SearchPage from './Search';
 
 function App() {
+
 
   let fileName = "";
 
   const [selectedColor, setSelectedColor] = useState("#e8e85a");
 
   var myRef = React.createRef();
+  var tagRef = React.createRef();
 
 
   const [clipboardText, setClipboardText] = useState(['']);
@@ -108,7 +117,10 @@ function App() {
     if (myRef.current.value.toString() !== "")
       deleteDoc(myRef.current.value.toString()).then(() => {
         //Hashing Paragraph element so that it can be easily stored in DB
-
+        window.database.collection("simple_text").doc(myRef.current.value.toString()).set({
+          name: myRef.current.value.toString(),
+          tags: tagRef.current.value.toString().split(" "),
+        });
         for (var key in window.mapping) {
           var doc = window.database.collection("simple_text").doc(myRef.current.value.toString()).collection("sentences").doc(stringToHash(key.toString()).toString())
             .set({
@@ -138,6 +150,7 @@ function App() {
   */
 
   return (
+
     <div className="App">
 
 
@@ -146,7 +159,9 @@ function App() {
         <div id="mainsec">
           <div id="topbar">
             <input type="text" ref={myRef} className="textField" placeholder="File Name" ></input>
+            <input type="text" ref={tagRef} className="textField" placeholder="Tags" ></input>
             <button onClick={saveEverything} className="saveButton" style={{ margin: 20 }}>Save</button>
+            <Link to={`/search`}><button className="saveButton" style={{ margin: 20 }}>Search</button></Link>
           </div>
           <div id="textsec" >
 
@@ -165,7 +180,11 @@ function App() {
           </div>
         </div>
       </div>
+
+
+
     </div>
+
   );
 }
 

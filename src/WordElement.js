@@ -28,6 +28,21 @@ class WordElement {
 
     }
 
+    subText(str = "") {
+        let hitCount = 0;
+
+        for (let index = 0; index < str.length; index++) {
+            const element = str.charAt(index);
+
+            if (element === '<' && hitCount === 0) {
+                hitCount = 1;
+
+            }
+
+        }
+
+    }
+
     getPureSentenceElement() {
         if (this.containsRawText) {
             console.warn("this.selectedColor really isn't doing anything, you'll have to get state");
